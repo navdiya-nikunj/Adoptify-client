@@ -1,9 +1,17 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowRight,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
-const Footer: React.FC= () => {
+const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-16">
@@ -11,12 +19,12 @@ const Footer: React.FC= () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Info */}
           <div>
-            <Image 
-            src={"/AdoptifyLogo.png"}
-            height={130}
-            width={130}
-            className='mb-4'
-            alt='logo'
+            <Image
+              src={'/AdoptifyLogo.png'}
+              height={130}
+              width={130}
+              className="mb-4"
+              alt="logo"
             />
             <p className="mb-6">Connecting loving homes with pets in need.</p>
             <div className="flex space-x-4">
@@ -34,22 +42,30 @@ const Footer: React.FC= () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-white text-lg font-semibold mb-6">
+              Quick Links
+            </h3>
             <ul className="space-y-3">
-              {['Find Pets', 'About Us', 'How It Works', 'Success Stories'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="flex items-center group">
-                    <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all" />
-                    <span className="group-hover:text-blue-400 transition-colors">{link}</span>
-                  </a>
-                </li>
-              ))}
+              {['Find Pets', 'About Us', 'How It Works', 'Success Stories'].map(
+                (link) => (
+                  <li key={link}>
+                    <a href="#" className="flex items-center group">
+                      <ArrowRight className="w-4 h-4 mr-2 opacity-0 -ml-6 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                      <span className="group-hover:text-blue-400 transition-colors">
+                        {link}
+                      </span>
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-6">Contact Us</h3>
+            <h3 className="text-white text-lg font-semibold mb-6">
+              Contact Us
+            </h3>
             <ul className="space-y-4">
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-3 text-blue-400" />
@@ -68,8 +84,12 @@ const Footer: React.FC= () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-6">Newsletter</h3>
-            <p className="mb-4">Stay updated with our latest pets and success stories.</p>
+            <h3 className="text-white text-lg font-semibold mb-6">
+              Newsletter
+            </h3>
+            <p className="mb-4">
+              Stay updated with our latest pets and success stories.
+            </p>
             <div className="flex flex-col space-y-3">
               <input
                 type="email"
@@ -88,9 +108,15 @@ const Footer: React.FC= () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p>&copy; 2024 Adoptify. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">Cookie Policy</a>
+              <a href="#" className="hover:text-blue-400 transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-blue-400 transition-colors">
+                Terms of Service
+              </a>
+              <a href="#" className="hover:text-blue-400 transition-colors">
+                Cookie Policy
+              </a>
             </div>
           </div>
         </div>

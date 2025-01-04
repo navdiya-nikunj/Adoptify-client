@@ -1,10 +1,17 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useAuthStore } from '@/store/useAuthStore';
+import toast from 'react-hot-toast';
+
+type SigninFormData = {
+  username: string | '';
+  password: string | '';
+};
 
 const BottomGradient = () => {
   return (
@@ -30,6 +37,39 @@ const LabelInputContainer = ({
 };
 
 const SigninPage: React.FC = () => {
+  const { login } = useAuthStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<SigninFormData | null>(null);
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { name, value } = e.target;
+    setUser(
+      (prevUser) =>
+        ({
+          ...prevUser,
+          [name]: value,
+        }) as SigninFormData
+    );
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+    console.log(user);
+    try {
+      setLoading(true);
+      login(user.username, user.password);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <div className=" w-full pt-28 pb-4 flex items-center justify-center ">
@@ -43,48 +83,46 @@ const SigninPage: React.FC = () => {
               alt="Adoptify"
             />
           </div>
-          <div className="w-1/2 px-4 flex flex-col items-center justify-center">
+          <div className="lg:w-1/2 px-4 flex flex-col items-center justify-center">
             <h2 className="font-bold text-3xl text-neutral-800 dark:text-neutral-200">
               Welcome Back to Adoptify !
             </h2>
             <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
               Login to your account to continue.
             </p>
-            <form
-              className="my-8 w-full px-5"
-              onSubmit={(e) => e.preventDefault()}
-            >
+            <form className="my-8 w-full px-5" onSubmit={handleSubmit}>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="firstname">Username</Label>
-                <Input id="firstname" placeholder="Tyler" type="text" />
+                <Input
+                  id="firstname"
+                  placeholder="Tyler"
+                  type="text"
+                  name="username"
+                  onChange={handleChange}
+                  value={user?.username}
+                  required
+                />
               </LabelInputContainer>
 
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  placeholder="projectmayhem@fc.com"
-                  type="email"
-                />
-              </LabelInputContainer>
-              <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" placeholder="••••••••" type="password" />
-              </LabelInputContainer>
-              <LabelInputContainer className="mb-8">
-                <Label htmlFor="twitterpassword">Confirm password</Label>
                 <Input
-                  id="twitterpassword"
+                  id="password"
                   placeholder="••••••••"
-                  type="twitterpassword"
+                  type="password"
+                  name="password"
+                  onChange={handleChange}
+                  value={user?.password}
+                  required
                 />
               </LabelInputContainer>
 
               <button
                 className="bg-gradient-to-br relative group/btn from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-zinc-900 dark:to-zinc-900 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                 type="submit"
+                disabled={loading}
               >
-                Sign In &rarr;
+                {loading ? 'Processing...' : <>Sign In &rarr;</>}
                 <BottomGradient />
               </button>
             </form>
@@ -102,7 +140,7 @@ const SigninPage: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-full z-0">
         <div className="absolute top-10 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute top-0 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute hidden md:block -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
     </div>
   );
